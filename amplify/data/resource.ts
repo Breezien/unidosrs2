@@ -15,6 +15,7 @@ const schema = a.schema({
       description: a.string().required(),
       cnpj: a.string(),
       type: a.string().required(),
+      offers: a.json().required(),
     })
     .authorization(allow => [allow.authenticated().to(['create']), allow.group('Admin')]),
     Places: a
@@ -27,6 +28,7 @@ const schema = a.schema({
       type: a.string().required(),
       upvotes: a.integer(),
       downvotes: a.integer(),
+      offers: a.json().required(),
     })
     .authorization(allow => [allow.publicApiKey().to(['read']), allow.group('Admin')]),
 });

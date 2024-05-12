@@ -1,54 +1,60 @@
-main {
+main.apply {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 800px;
+  height: 700px;
+  background-color: #2E2E2E;
+  border-radius: 10px;
+  padding: 45px;
+  padding-top: 0px;
+}
+main.apply h1 {
+ margin-bottom: 5px;
+}
+main.apply .info {
+  margin-bottom: 10px;
+}
+.formWrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.formWrapper .inputField {
+  grid-column: span 1;
+  width: 220px;
+}
+
+.formWrapper .inputField input {
+  width: 100%;
+}
+
+.formWrapper textarea {
+  grid-column: span 3;
+  width: 680px;
+  height: 100px;
+}
+
+.formWrapper .checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column: span 3;
+}
+
+.formWrapper button {
+  grid-column: span 3;
+}
+.formWrapper .checkboxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column: span 3;
+}
+
+.formWrapper .checkboxes div {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  color: white;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-ul {
-  padding-inline-start: 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  margin: 8px 0;
-  border: 1px solid black;
-  gap: 1px;
-  background-color: black;
-  border-radius: 8px;
-  overflow: auto;
-}
-
-li {
-  background-color: white;
-  padding: 8px;
-}
-
-li:hover {
-  background: #dadbf9;
-}
-
-a {
-  font-weight: 800;
-  text-decoration: none;
 }

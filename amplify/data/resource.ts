@@ -19,7 +19,6 @@ const schema = a.schema({
     .authorization(allow => [allow.authenticated().to(['create']), allow.group('Admin')]),
     Places: a
     .model({
-      placeId: a.string().required(),
       name: a.string().required(),
       address: a.string().required(),
       zipcode: a.string().required(),

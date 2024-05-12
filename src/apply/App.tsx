@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
+import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
@@ -22,18 +22,9 @@ function App() {
     <Authenticator>
       {({ signOut }) => (
     <main>
-      <h1>Lugares</h1>
-      <ul>
-        {Places.map((place) => (
-          <li key={place.id}>{place.name} - {place.zipcode}</li>
-        ))}
-      </ul>
+      <h1>Aplicar um Lugar</h1>
       <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://next-release-dev.d1ywzrxfkb9wgg.amplifyapp.com/react/start/quickstart/vite-react-app/#step-2-add-delete-to-do-functionality">
-          Review next step of this tutorial.
-        </a>
+        Aqui voce pode fazer uma aplicacao para adicionar um ponto de ajuda (nao precisa ser seu!)
       </div>
       <button onClick={signOut}>Sign out</button>
     </main>  

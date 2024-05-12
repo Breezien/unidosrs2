@@ -7,11 +7,11 @@ import '@aws-amplify/ui-react/styles.css'
 const client = generateClient<Schema>();
 
 function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [Places, setPlaces] = useState<Array<Schema["Places"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
+    client.models.Places.observeQuery().subscribe({
+      next: (data) => setPlaces([...data.items]),
     });
   }, []);
 
@@ -24,8 +24,8 @@ function App() {
     <main>
       <h1>Lugares</h1>
       <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+        {Places.map((place) => (
+          <li key={place.id}>{place.name} - {place.zipcode}</li>
         ))}
       </ul>
       <div>

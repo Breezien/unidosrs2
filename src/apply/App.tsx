@@ -48,15 +48,20 @@ function Apply() {
 
     console.log(offers);
 
-    client.models.PlaceRequests.create({
-      name: name,
-      address: address,
-      zipcode: zipcode,
-      description: description,
-      offers: offersString,
-      type: type,
-      cnpj: cnpj,
-    })
+    client.models.PlaceRequests.create(
+      {
+        name: name,
+        address: address,
+        zipcode: zipcode,
+        description: description,
+        offers: offersString,
+        type: type,
+        cnpj: cnpj,
+      },
+      {
+        authMode: 'userPool',
+      }
+    )
       .then(response => {
         console.log('Item created successfully', response);
       })
@@ -169,9 +174,8 @@ function Apply() {
                   autoUpload={false}
                   displayText={{
                     getFilesUploadedText(count) {
-                      return `${count} ${
-                        count === 1 ? 'archivo carregado' : 'archivos carregados'
-                      }`;
+                      return `${count} ${count === 1 ? 'archivo carregado' : 'archivos carregados'
+                        }`;
                     },
                     getPausedText(percentage) {
                       return `Pausado: ${percentage}%`;

@@ -30,7 +30,7 @@ const schema = a.schema({
       downvotes: a.integer(),
       offers: a.json().required(),
     })
-    .authorization(allow => [allow.publicApiKey().to(['read']), allow.group('Admin')]),
+    .authorization(allow => [allow.guest().to(['read']), allow.group('Admin')]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -38,11 +38,8 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
+    defaultAuthorizationMode: "identityPool",
     // API Key is used for a.allow.public() rules
-    apiKeyAuthorizationMode: {
-      expiresInDays: 30,
-    },
   },
 });
 

@@ -5,6 +5,7 @@ export const storage = defineStorage({
   access: (allow) => ({
     'placePictures/{entity_id}/*': [
       allow.guest.to(['read']),
+      allow.authenticated.to(['read']),
       allow.entity('identity').to(['read', 'write']),
       allow.groups(['Admin']).to(['read', 'write', 'delete']),
     ],

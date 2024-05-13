@@ -17,21 +17,53 @@ function Apply() {
     const address = formData.get('address') as string;
     const zipcode = formData.get('zipcode') as string;
     const description = formData.get('description') as string;
-    const offers = Array.from(formData.getAll('offers')) as string[];
     const type = formData.get('type') as string;
     const cnpj = formData.get('cnpj') as string;
+
+    const allOffers = [
+      'Abrigo',
+      'Refeições',
+      'Agua',
+      'Alimentos',
+      'Produtos de limpeza',
+      'Produtos de higiene pessoal',
+      'Alimentos para gatos',
+      'Alimentos para caes',
+      'Moveis',
+      'Eletrodomesticos',
+      'Roupas para mulheres',
+      'Roupas para homens',
+      'Roupas para crianças',
+      'Brinquedos',
+      'Outras bebidas nao alcoolicas'
+    ];
+
+    const offers = allOffers.reduce((acc, offer) => {
+      acc[offer] = formData.getAll('offers').includes(offer) ? 1 : 0;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const offersString = JSON.stringify(offers);
+
+    console.log(offers);
 
     client.models.PlaceRequests.create({
       name: name,
       address: address,
       zipcode: zipcode,
       description: description,
-      offers: offers,
+      offers: offersString,
       type: type,
       cnpj: cnpj,
-    });
+    })
+      .then(response => {
+        console.log('Item created successfully', response);
+      })
+      .catch(error => {
+        console.error('Error creating item', error);
+      });
+    console.log('applyPlace is being called');
   }
-
   return (
 
     <Authenticator>

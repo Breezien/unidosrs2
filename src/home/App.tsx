@@ -25,7 +25,7 @@ function Home() {
       <div className="navbar">
         <Link to="/"><button className="navbtn selected">Pontos de Ajuda</button></Link>
         <Link to="/aplicar"><button className="navbtn">Aplicar</button></Link>
-        <Link to="/about"><button className="navbtn">Sobre</button></Link>
+        <Link to="/sobre"><button className="navbtn">Sobre</button></Link>
       </div>
       <main className="home">
         <h1>Pontos de ajuda</h1>

@@ -2,6 +2,8 @@ import { Authenticator } from '@aws-amplify/ui-react'
 import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { StorageManager } from '@aws-amplify/ui-react-storage';
+import { fetchAuthSession, AuthSession } from 'aws-amplify/auth'
+import { useState, useEffect } from 'react';
 import '@aws-amplify/ui-react/styles.css'
 import { Link } from "react-router-dom";
 import "./apply.css";
@@ -10,6 +12,12 @@ import "../global.css";
 const client = generateClient<Schema>();
 
 function Apply() {
+
+  const [credentials, setCredentials] = useState<AuthSession | null>(null);
+
+  useEffect(() => {
+    fetchAuthSession().then(setCredentials).catch(console.error);
+  }, []);
 
   function applyPlace(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -80,7 +88,7 @@ function Apply() {
           <div className="navbar">
             <Link to="/"><button className="navbtn">Pontos de Ajuda</button></Link>
             <Link to="/aplicar"><button className="navbtn selected">Aplicar</button></Link>
-            <Link to="/about"><button className="navbtn">Sobre</button></Link>
+            <Link to="/sobre"><button className="navbtn">Sobre</button></Link>
             <button onClick={signOut} className="navbtn account"><img src="/account.svg"></img></button>
           </div>
 
@@ -166,42 +174,44 @@ function Apply() {
                     <label><input type="checkbox" name="offers" /> Outras bebidas nao alcoolicas</label>
                   </div>
                 </div>
-                <StorageManager
-                  acceptedFileTypes={['image/*']}
-                  path="placePictures/{entity_id}/"
-                  maxFileCount={5}
-                  isResumable
-                  autoUpload={false}
-                  displayText={{
-                    getFilesUploadedText(count) {
-                      return `${count} ${count === 1 ? 'archivo carregado' : 'archivos carregados'
-                        }`;
-                    },
-                    getPausedText(percentage) {
-                      return `Pausado: ${percentage}%`;
-                    },
-                    getFileSizeErrorText(sizeText) {
-                      return `O tamanho da imagem deve ser menor do que ${sizeText}`;
-                    },
-                    getRemainingFilesText(count) {
-                      return `${count} ${count === 1 ? 'archivo' : 'archivos'} restantes`;
-                    },
-                    getUploadingText(percentage) {
-                      return `Fazendo upload... ${percentage > 0 ? `: ${percentage}%` : ''}`;
-                    },
-                    getUploadButtonText(count) {
-                      return `Carregar ${count} ${count === 1 ? 'archivo' : 'archivos'}`;
-                    },
-                    doneButtonText: 'Fazer upload',
-                    uploadSuccessfulText: 'Upload feito com sucesso',
-                    pauseButtonText: 'Pausar',
-                    resumeButtonText: 'Resumir',
-                    clearAllButtonText: 'Remover todos',
-                    extensionNotAllowedText: 'Voce so pode enviar imagens!',
-                    dropFilesText: 'Coloque as imagens aqui',
-                    browseFilesText: 'Buscar imagens',
-                  }}
-                />
+                {credentials && (
+                  <StorageManager
+                    acceptedFileTypes={['image/*']}
+                    path={`placePictures/${credentials.identityId}/`}
+                    maxFileCount={5}
+                    isResumable
+                    autoUpload={false}
+                    displayText={{
+                      getFilesUploadedText(count) {
+                        return `${count} ${count === 1 ? 'archivo carregado' : 'archivos carregados'
+                          }`;
+                      },
+                      getPausedText(percentage) {
+                        return `Pausado: ${percentage}%`;
+                      },
+                      getFileSizeErrorText(sizeText) {
+                        return `O tamanho da imagem deve ser menor do que ${sizeText}`;
+                      },
+                      getRemainingFilesText(count) {
+                        return `${count} ${count === 1 ? 'archivo' : 'archivos'} restantes`;
+                      },
+                      getUploadingText(percentage) {
+                        return `Fazendo upload... ${percentage > 0 ? `: ${percentage}%` : ''}`;
+                      },
+                      getUploadButtonText(count) {
+                        return `Carregar ${count} ${count === 1 ? 'archivo' : 'archivos'}`;
+                      },
+                      doneButtonText: 'Fazer upload',
+                      uploadSuccessfulText: 'Upload feito com sucesso',
+                      pauseButtonText: 'Pausar',
+                      resumeButtonText: 'Resumir',
+                      clearAllButtonText: 'Remover todos',
+                      extensionNotAllowedText: 'Voce so pode enviar imagens!',
+                      dropFilesText: 'Coloque as imagens aqui',
+                      browseFilesText: 'Buscar imagens',
+                    }}
+                  />
+                )}
                 <button type="submit">Enviar</button>
               </form>
             </div>

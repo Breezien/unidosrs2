@@ -1,6 +1,7 @@
 import { Authenticator } from '@aws-amplify/ui-react'
 import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import { StorageManager } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css'
 import { Link } from "react-router-dom";
 import "./apply.css";
@@ -160,7 +161,43 @@ function Apply() {
                     <label><input type="checkbox" name="offers" /> Outras bebidas nao alcoolicas</label>
                   </div>
                 </div>
-
+                <StorageManager
+                  acceptedFileTypes={['image/*']}
+                  path="placePictures/{entity_id}/"
+                  maxFileCount={5}
+                  isResumable
+                  autoUpload={false}
+                  displayText={{
+                    getFilesUploadedText(count) {
+                      return `${count} ${
+                        count === 1 ? 'archivo carregado' : 'archivos carregados'
+                      }`;
+                    },
+                    getPausedText(percentage) {
+                      return `Pausado: ${percentage}%`;
+                    },
+                    getFileSizeErrorText(sizeText) {
+                      return `O tamanho da imagem deve ser menor do que ${sizeText}`;
+                    },
+                    getRemainingFilesText(count) {
+                      return `${count} ${count === 1 ? 'archivo' : 'archivos'} restantes`;
+                    },
+                    getUploadingText(percentage) {
+                      return `Fazendo upload... ${percentage > 0 ? `: ${percentage}%` : ''}`;
+                    },
+                    getUploadButtonText(count) {
+                      return `Carregar ${count} ${count === 1 ? 'archivo' : 'archivos'}`;
+                    },
+                    doneButtonText: 'Fazer upload',
+                    uploadSuccessfulText: 'Upload feito com sucesso',
+                    pauseButtonText: 'Pausar',
+                    resumeButtonText: 'Resumir',
+                    clearAllButtonText: 'Remover todos',
+                    extensionNotAllowedText: 'Voce so pode enviar imagens!',
+                    dropFilesText: 'Coloque as imagens aqui',
+                    browseFilesText: 'Buscar imagens',
+                  }}
+                />
                 <button type="submit">Enviar</button>
               </form>
             </div>

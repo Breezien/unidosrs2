@@ -12,7 +12,7 @@ function Home() {
   const [places, setPlaces] = useState<Array<Schema["Places"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Places.observeQuery().subscribe({
+    client.models.Places.observeQuery({ authMode: 'identityPool' }).subscribe({
       next: (data) => setPlaces([...data.items]),
     });
   }, []);

@@ -16,6 +16,8 @@ const schema = a.schema({
       cnpj: a.string(),
       type: a.string().required(),
       offers: a.json().required(),
+      hours: a.string().required(),
+      user: a.string().required(),
     })
     .authorization(allow => [allow.authenticated().to(['create']), allow.group('Admin')]),
     Places: a
@@ -29,6 +31,8 @@ const schema = a.schema({
       upvotes: a.integer(),
       downvotes: a.integer(),
       offers: a.json().required(),
+      hours: a.string().required(),
+      user: a.string().required(),
     })
     .authorization(allow => [allow.guest().to(['read']), allow.group('Admin')]),
 });

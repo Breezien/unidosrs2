@@ -22,12 +22,6 @@ function Apply() {
   function applyPlace(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const name = formData.get('name') as string;
-    const address = formData.get('address') as string;
-    const zipcode = formData.get('zipcode') as string;
-    const description = formData.get('description') as string;
-    const type = formData.get('type') as string;
-    const cnpj = formData.get('cnpj') as string;
 
     const allOffers = [
       'Abrigo',
@@ -54,17 +48,17 @@ function Apply() {
 
     const offersString = JSON.stringify(offers);
 
-    console.log(offers);
-
     client.models.PlaceRequests.create(
       {
-        name: name,
-        address: address,
-        zipcode: zipcode,
-        description: description,
+        name: formData.get('name') as string,
+        address: formData.get('address') as string,
+        zipcode: formData.get('zipcode') as string,
+        description: formData.get('description') as string,
         offers: offersString,
-        type: type,
-        cnpj: cnpj,
+        type: formData.get('type') as string,
+        cnpj: formData.get('cnpj') as string,
+        user: credentials?.identityId || 'unknown',
+        hours: formData.get('hours') as string,
       },
       {
         authMode: 'userPool',
@@ -102,30 +96,30 @@ function Apply() {
               <form className="formWrapper" onSubmit={applyPlace}>
                 <div className="inputField">
                   <label>Nome</label>
-                  <input type="text" name="name" />
+                  <input type="text" name="name" required/>
                 </div>
                 <div className="inputField">
                   <label>Endereco</label>
-                  <input type="text" name="address" />
+                  <input type="text" name="address" required/>
                 </div>
                 <div className="inputField">
                   <label>CEP</label>
-                  <input type="text" name="zipcode" />
+                  <input type="text" name="zipcode" required/>
                 </div>
                 <div className="inputField">
                   <label>CNPJ</label>
-                  <input type="text" name="cnpj" />
+                  <input type="text" name="cnpj" required/>
                 </div>
                 <div className="inputField">
-                  <label>Tipo</label>
-                  <input type="text" name="type" />
+                  <label>Tipo (Publico/Privado)</label>
+                  <input type="text" name="type" required/>
                 </div>
                 <div className="inputField">
-                  <label>Blank</label>
-                  <input type="text" name="blank" />
+                  <label>Horario</label>
+                  <input type="text" name="hours" required/>
                 </div>
                 <label>Descricao</label>
-                <textarea name="description"></textarea>
+                <textarea name="description" required></textarea>
 
                 <div className="checkboxes">
                   <div>

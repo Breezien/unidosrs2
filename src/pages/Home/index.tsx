@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import type { Schema } from "../../amplify/data/resource";
+import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 import '@aws-amplify/ui-react/styles.css'
-import "./home.css";
-import "../global.css";
+import "../../assets/home.css";
 
 const client = generateClient<Schema>();
 
@@ -22,11 +21,7 @@ function Home() {
   return (
 
     <>
-      <div className="navbar">
-        <Link to="/"><button className="navbtn selected">Pontos de Ajuda</button></Link>
-        <Link to="/aplicar"><button className="navbtn">Aplicar</button></Link>
-        <Link to="/sobre"><button className="navbtn">Sobre</button></Link>
-      </div>
+      <Navbar page="home" />
       <main className="home">
         <h1>Pontos de ajuda</h1>
         Esses são os pontos de ajuda cadastrados no sistema:

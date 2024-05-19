@@ -1,13 +1,12 @@
 import { Authenticator } from '@aws-amplify/ui-react'
-import type { Schema } from "../../amplify/data/resource";
+import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { StorageManager } from '@aws-amplify/ui-react-storage';
 import { fetchAuthSession, AuthSession } from 'aws-amplify/auth'
 import { useState, useEffect } from 'react';
+import Navbar from '../../components/Navbar';
 import '@aws-amplify/ui-react/styles.css'
-import { Link } from "react-router-dom";
-import "./apply.css";
-import "../global.css";
+import "../../assets/apply.css";
 
 const client = generateClient<Schema>();
 
@@ -75,20 +74,13 @@ function Apply() {
   return (
 
     <Authenticator>
-      {({ signOut }) => (
 
         <>
 
-          <div className="navbar">
-            <Link to="/"><button className="navbtn">Pontos de Ajuda</button></Link>
-            <Link to="/aplicar"><button className="navbtn selected">Aplicar</button></Link>
-            <Link to="/sobre"><button className="navbtn">Sobre</button></Link>
-            <button onClick={signOut} className="navbtn account"><img src="/account.svg"></img></button>
-          </div>
-
+          <Navbar page="apply" />
 
           <main className="apply">
-            <h1>Aplicar um Lugar</h1>
+            <h1>Adicionar um Lugar</h1>
             <div className="info">
               Aqui voce pode fazer uma aplicacao para adicionar um ponto de ajuda (nao precisa ser seu!)
             </div>
@@ -212,7 +204,6 @@ function Apply() {
 
           </main>
         </>
-      )}
     </Authenticator>
   );
 }

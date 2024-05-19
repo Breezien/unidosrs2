@@ -34,7 +34,7 @@ const schema = a.schema({
       hours: a.string().required(),
       user: a.string().required(),
     })
-    .authorization(allow => [allow.guest().to(['read', 'sync', 'listen', 'get', 'search']), allow.group('Admin')]),
+    .authorization(allow => [allow.guest().to(['read']), allow.group('Admin')]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

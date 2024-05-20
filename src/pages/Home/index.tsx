@@ -11,7 +11,7 @@ function Home() {
   const [places, setPlaces] = useState<Array<Schema["Places"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Places.observeQuery({ authMode: 'identityPool' }).subscribe({
+    client.models.Places.observeQuery({ authMode: 'apiKey' }).subscribe({
       next: (data) => setPlaces([...data.items]),
     });
   }, []);

@@ -34,15 +34,16 @@ const schema = a.schema({
       hours: a.string().required(),
       user: a.string().required(),
     })
-    .authorization(allow => [allow.guest().to(['read']), allow.group('Admin')]),
+    .authorization(allow => [allow.publicApiKey().to(['read']), allow.group('Admin')]),
 });
+
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "identityPool",
+    defaultAuthorizationMode: "apiKey",
     // API Key is used for a.allow.public() rules
   },
 });

@@ -1,4 +1,4 @@
-import { Authenticator } from '@aws-amplify/ui-react'
+import { Navigate } from 'react-router-dom';
 import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { StorageManager } from '@aws-amplify/ui-react-storage';
@@ -13,9 +13,13 @@ const client = generateClient<Schema>();
 function Apply() {
 
   const [credentials, setCredentials] = useState<AuthSession | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchAuthSession().then(setCredentials).catch(console.error);
+    fetchAuthSession()
+      .then(setCredentials)
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
 
   function applyPlace(event: React.FormEvent<HTMLFormElement>) {
@@ -70,13 +74,30 @@ function Apply() {
         console.error('Error creating item', error);
       });
     console.log('applyPlace is being called');
+
   }
+
+  interface ProcessFileParams {
+    file: File;
+    key: string;
+  }
+
+  const processFile = async ({ file }: { file: File }): Promise<ProcessFileParams> => {
+    const newFileName = `1`;
+    const newFile = new File([file], newFileName, { type: file.type });
+
+    return { file: newFile, key: `1` };
+  };
+
   return (
 
-    <Authenticator>
-
+    <>
+      {loading ? (
+        <p>Carregando...</p>
+      ) : !credentials?.userSub ? (
+        <Navigate to={`/logar?redirect=aplicar`} replace />
+      ) : (
         <>
-
           <Navbar page="apply" />
 
           <main className="apply">
@@ -88,27 +109,27 @@ function Apply() {
               <form className="formWrapper" onSubmit={applyPlace}>
                 <div className="inputField">
                   <label>Nome</label>
-                  <input type="text" name="name" required/>
+                  <input type="text" name="name" required />
                 </div>
                 <div className="inputField">
                   <label>Endereco</label>
-                  <input type="text" name="address" required/>
+                  <input type="text" name="address" required />
                 </div>
                 <div className="inputField">
                   <label>CEP</label>
-                  <input type="text" name="zipcode" required/>
+                  <input type="text" name="zipcode" required />
                 </div>
                 <div className="inputField">
                   <label>CNPJ</label>
-                  <input type="text" name="cnpj" required/>
+                  <input type="text" name="cnpj" required />
                 </div>
                 <div className="inputField">
                   <label>Tipo (Publico/Privado)</label>
-                  <input type="text" name="type" required/>
+                  <input type="text" name="type" required />
                 </div>
                 <div className="inputField">
                   <label>Horario</label>
-                  <input type="text" name="hours" required/>
+                  <input type="text" name="hours" required />
                 </div>
                 <label>Descricao</label>
                 <textarea name="description" required></textarea>
@@ -164,9 +185,10 @@ function Apply() {
                   <StorageManager
                     acceptedFileTypes={['image/*']}
                     path={`placePictures/${credentials.identityId}/`}
-                    maxFileCount={5}
+                    maxFileCount={1}
                     isResumable
                     autoUpload={false}
+                    processFile={processFile}
                     displayText={{
                       getFilesUploadedText(count) {
                         return `${count} ${count === 1 ? 'archivo carregado' : 'archivos carregados'
@@ -192,9 +214,9 @@ function Apply() {
                       pauseButtonText: 'Pausar',
                       resumeButtonText: 'Resumir',
                       clearAllButtonText: 'Remover todos',
-                      extensionNotAllowedText: 'Voce so pode enviar imagens!',
-                      dropFilesText: 'Coloque as imagens aqui',
-                      browseFilesText: 'Buscar imagens',
+                      extensionNotAllowedText: 'Voce so pode enviar uma imagem!',
+                      dropFilesText: 'Coloque uma imagen aqui',
+                      browseFilesText: 'Buscar imagen',
                     }}
                   />
                 )}
@@ -204,7 +226,8 @@ function Apply() {
 
           </main>
         </>
-    </Authenticator>
+      )}
+    </>
   );
 }
 

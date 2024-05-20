@@ -1,0 +1,134 @@
+main.admin {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+}
+
+a {
+    font-weight: 800;
+    text-decoration: none;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 0.88em;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+thead {
+    background-color: #222222;
+}
+
+.wrapper {
+    overflow-x: auto;
+    background: #222;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    border-radius: 0.7rem;
+    outline: 1px solid;
+    outline-color: #333;
+    box-shadow: 0 0.55rem 1.25rem rgb(0 65 98 / 4%);
+    -webkit-box-shadow: 0 0.55rem 1.25rem rgb(0 65 98 / 4%);
+    box-shadow: 0 0.55rem 1.25rem rgb(0 65 98 / 4%);
+}
+
+td,
+th {
+    padding: 0.65em;
+    padding-left: 2em;
+    text-align: left;
+}
+
+th {
+    font-size: 1em;
+    height: 1.8em;
+}
+
+th button {
+    padding: 4px;
+    margin: 1px;
+    font-size: 100%;
+    font-weight: bold;
+    background: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #1A1A1A;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
+tbody tr:hover {
+    background-color: #464646;
+}
+
+th[aria-sort="descending"] span::after {
+    content: "▼";
+    color: currentcolor;
+    font-size: 100%;
+    top: 0;
+}
+
+th[aria-sort="ascending"] span::after {
+    content: "▲";
+    color: currentcolor;
+    font-size: 100%;
+    top: 0;
+}
+
+th:nth-child(1) {
+    width: 12em;
+}
+
+th:nth-child(2) {
+    width: 8em;
+}
+
+th:nth-child(3) {
+    width: 20em;
+}
+
+th:nth-child(4) {
+    width: 20em;
+}
+
+th:nth-child(5) {
+    width: 20em;
+    padding-right: 2em;
+}
+
+th:nth-child(7) {
+    width: 12em;
+    padding-right: 2em;
+}
+
+td:nth-child(1) {
+    padding-left: 2em;
+}
+
+td a {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    color: #0047AB;
+    text-decoration: none;
+}
+
+td a:hover {
+    color: #0096FF;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+td a:visited {
+    color: #5a5a5a;
+}

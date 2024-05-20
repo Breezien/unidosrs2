@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import { StorageImage } from '@aws-amplify/ui-react-storage';
 import Navbar from "../../components/Navbar";
 import '@aws-amplify/ui-react/styles.css'
 import "../../assets/home.css";
+
 
 const client = generateClient<Schema>();
 
@@ -25,31 +27,20 @@ function Home() {
       <main className="home">
         <h1>Pontos de ajuda</h1>
         Esses são os pontos de ajuda cadastrados no sistema:
-        <div className="wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>CEP</th>
-                <th>Endereço</th>
-                <th>Descricao</th>
-                <th>Votos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {places.map((place) => (
-                <tr>
-                  <td>{place.name}</td>
-                  <td>{place.zipcode}</td>
-                  <td>{place.address}</td>
-                  <td>{place.description}</td>
-                  <td>{place.upvotes}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
+        {places.map((place) => {
+          const offers = typeof place.offers === 'string' ? JSON.parse(place.offers) : {};
+          return (
+            <div className="placeObj">
+              <StorageImage alt="place image" className="placeImage" path={`placePictures/${place.user}/1`} />
+              <span className="placeName">{place.name}</span>
+              <span className="placeAddress">{place.address}, <span className="placeZipcode">{place.zipcode}</span></span>
+              <span className="placeType">Tipo: {place.type}</span>
+              <span className="placeHours"> Horario: {place.hours}</span>
+              <span className="placeOffers">Oferece: {Object.entries(offers).filter(([key]) => offers[key] === 1).map(([key]) => key).join(', ')}</span>
+              <span className="placeDescription">Descricao: {place.description}</span>  
+            </div>
+          );
+        })}
       </main>
     </>
 

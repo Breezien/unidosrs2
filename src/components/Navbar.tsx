@@ -4,7 +4,7 @@ import '@aws-amplify/ui-react/styles.css';
 import { useState, useEffect } from 'react';
 
 interface NavbarProps {
-  page: 'home' | 'apply' | 'about' | 'admin';
+  page: 'home' | 'apply' | 'about' | 'admin' | 'other';
 }
 
 function Navbar({ page }: NavbarProps) {

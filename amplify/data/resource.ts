@@ -44,10 +44,11 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
   },
 });
-
 /*== STEP 2 ===============================================================
 Go to your frontend source code. From your client-side code, generate a
 Data client to make CRUDL requests to your table. (THIS SNIPPET WILL ONLY

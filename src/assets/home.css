@@ -2,121 +2,72 @@ main.home {
   position: absolute;
   top: 20%;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, 0);
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  color: white;
+main.home h1, main.home p {
+  text-align: center;
 }
 
-button:hover {
-  border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-ul {
-  padding-inline-start: 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  margin: 8px 0;
-  border: 1px solid black;
-  gap: 1px;
-  background-color: black;
-  border-radius: 8px;
-  overflow: auto;
-}
-
-li {
-  background-color: white;
-  padding: 8px;
-  color: black;
-}
-
-li:hover {
-  background: #dadbf9;
-}
 .placeObj {
-  width: 980px;
-  height: 240px;
   display: flex;
-  flex-direction: column;
-  margin: 8px;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: 8px 0;
   padding: 8px;
   border: 1px solid black;
   border-radius: 8px;
   background-color: #181818;
-
+  height: 240px;
 }
 
 .placeImage {
   width: 180px;
+  height: auto;
   border-radius: 10px;
-  margin-top: 8px;
-  margin-left: 8px;
+  margin-right: 20px;
+}
+
+.placeDetails {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  margin-right: 20px;
 }
 
 .placeName {
   font-size: 30px;
   font-weight: bold;
-  top: -80%;
-  position: relative;
-  left: 205px;
-  width: 390px;
+  margin-bottom: 10px;
 }
 
-.placeAddress {
+.placeAddress,
+.placeType,
+.placeHours,
+.placeOffers {
   font-size: 16px;
-  top: -80%;
-  position: relative;
-  left: 205px;
-  width: 390px;
+  margin-bottom: 8px;
 }
 
 .placeDescription {
-  top: -137%;
-  position: relative;
-  left: 623px;
-  font-size: 16px;
   background-color: #222;
   padding: 10px;
-  width: 330px;
-  min-height: 196px;
   border-radius: 10px;
+  flex-basis: 40%;
+  align-self: flex-start;
+  font-size: 16px;
+  width: 320px;
+  min-height: 209px;
+  margin-top: 6px;
 }
 
-.placeOffers {
-  top: -65%;
-  position: relative;
-  left: 205px;
-  width: 390px;
-}
-
-.placeType {
-  top: -75%;
-  position: relative;
-  left: 205px;
-  width: 390px;
-}
-
-.placeHours {
-  top: -70%;
-  position: relative;
-  left: 205px;
-  width: 390px;
+.descriptionContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }

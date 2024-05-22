@@ -27,7 +27,7 @@ body {
     background-color: #181818;
     color: #fff;
     padding-bottom: 6px;
-    width: 160px;
+    width: 165px;
     top: 50%;
     transform: translate(-50%, -50%);
     left: 28%;
@@ -47,7 +47,7 @@ body {
 .account {
     width: 50px;
     height: 50px;
-    left: 25%;
+    left: 23%;
 }
 
 .account img {
@@ -84,3 +84,12 @@ a {
     font-weight: 800;
     text-decoration: none;
 }
+
+main.about {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 700px;
+    box-sizing: border-box;
+  }

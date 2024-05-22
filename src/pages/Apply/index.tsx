@@ -93,7 +93,10 @@ function Apply() {
 
     <>
       {loading ? (
-        <p>Carregando...</p>
+        <>
+          <Navbar page="apply" />
+          <p>Carregando...</p>
+        </ >
       ) : !credentials?.userSub ? (
         <Navigate to={`/logar?redirect=aplicar`} replace />
       ) : (

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { getCurrentUser, signOut } from '@aws-amplify/auth';
+import { getCurrentUser } from '@aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
 import { useState, useEffect } from 'react';
 
 interface NavbarProps {
-  page: 'home' | 'apply' | 'about' | 'admin' | 'other';
+  page: 'home' | 'apply' | 'about' | 'admin' | 'account' | 'other';
 }
 
 function Navbar({ page }: NavbarProps) {
@@ -23,14 +23,14 @@ function Navbar({ page }: NavbarProps) {
       }
     }
   
-    const handleSignOut = async () => {
-      try {
-        await signOut();
-        setIsLoggedIn(false);
-      } catch (error) {
-        console.error('Error signing out: ', error);
-      }
-    };
+    // const handleSignOut = async () => {
+    //   try {
+    //     await signOut();
+    //     setIsLoggedIn(false);
+    //   } catch (error) {
+    //     console.error('Error signing out: ', error);
+    //   }
+    // };
   
     return (
       <div className="navbar">
@@ -44,9 +44,11 @@ function Navbar({ page }: NavbarProps) {
           <button className={`navbtn ${page === 'about' ? 'selected' : ''}`}>Sobre</button>
         </Link>
         {isLoggedIn && (
-          <button onClick={handleSignOut} className="navbtn account">
+          <Link to="/conta">
+          <button className={`navbtn account ${page === 'account' ? 'selected' : ''}`}>
             <img src="/account.svg" alt="Account" />
           </button>
+          </Link>
         )}
       </div>
     );

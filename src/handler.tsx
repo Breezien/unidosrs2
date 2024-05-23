@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
+import Unknown from "./pages/404";
 
 const Handler = () => {
   return (
@@ -15,6 +16,7 @@ const Handler = () => {
       <Route path="/admin" element={<Admin />} />
       <Route path="/logar" element={<Login />} />
       <Route path="/conta" element={<Account />} />
+      <Route path="/*" element={<Unknown />} />
     </Routes>
   );
 };

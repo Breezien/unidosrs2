@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { fetchAuthSession, AuthSession } from 'aws-amplify/auth'
+import { getCurrentUser, signOut, AuthUser } from 'aws-amplify/auth'
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import '@aws-amplify/ui-react/styles.css'
@@ -7,15 +7,26 @@ import "../../assets/apply.css";
 
 function Account() {
 
-  const [credentials, setCredentials] = useState<AuthSession | null>(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<AuthUser | null>(null);
+
 
   useEffect(() => {
-    fetchAuthSession()
-      .then(setCredentials)
-      .catch(console.error)
+    checkUser()
       .finally(() => setLoading(false));
   }, []);
+
+  async function checkUser() {
+    try {
+      setUser(await getCurrentUser());
+    } catch {
+    }
+  }
+
+  const handleSignOut = async () => {
+    await signOut();
+    setUser(null);
+  };
 
 
   return (
@@ -26,16 +37,17 @@ function Account() {
           <Navbar page="account" />
           <p>Carregando...</p>
         </ >
-      ) : !credentials?.userSub ? (
+      ) : !user ? (
         <Navigate to={`/logar?redirect=conta`} replace />
       ) : (
         <>
           <Navbar page="account" />
 
           <main className="accountPage">
-            <h1>Sua conta</h1>
             <div className="info">
-              [description]
+              <h1>Sua conta</h1>
+              <p>Email: {user?.signInDetails?.loginId}</p>
+              <button onClick={handleSignOut}>Deslogar</button>
             </div>
           </main>
         </>

@@ -1,6 +1,6 @@
 import { fetchUserAttributes, FetchUserAttributesOutput } from 'aws-amplify/auth';
 import { useState, useEffect } from 'react';
-import { Authenticator } from '@aws-amplify/ui-react'
+import { Navigate } from 'react-router-dom';
 import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import '@aws-amplify/ui-react/styles.css'
@@ -14,9 +14,13 @@ function Admin() {
 
     const [attributes, setAttributes] = useState<FetchUserAttributesOutput | null>(null);
     const [placeRequests, setPlaces] = useState<Array<Schema["PlaceRequests"]["type"]>>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchUserAttributes().then(setAttributes).catch(console.error);
+        fetchUserAttributes()
+            .then(setAttributes)
+            .catch(console.error)
+            .finally(() => setLoading(false));
     }, []);
 
     useEffect(() => {
@@ -27,17 +31,12 @@ function Admin() {
             .catch(error => console.error(error));
     }, [client.models.PlaceRequests]);
 
-    if (!attributes) {
+    if (attributes && !(attributes?.email == "eduardo.m.hartz@gmail.com" && attributes?.email_verified == "true")) {
         return (
-            <Authenticator>
-                <script>window.location.reload()</script>
-            </Authenticator>
-        )
-    }
-
-    if (!(attributes.email == "eduardo.m.hartz@gmail.com" && attributes.email_verified == "true")) {
-        return (
-            <p>unauthorized</p>
+            <>
+                <Navbar page="admin" />
+                <p>Erro 403: Nao autorizado</p>
+            </>
         )
     }
 
@@ -73,44 +72,55 @@ function Admin() {
     return (
 
         <>
-            <Navbar page="admin" />
-            <main className="admin">
-                <h1>Painel Admin</h1>
-                <div className="wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>CEP</th>
-                                <th>Endereço</th>
-                                <th>Descricao</th>
-                                <th>Oferece</th>
-                                <th>Foto</th>
-                                <th>Aprovar?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {placeRequests.map((place) => {
-                                const offers = typeof place.offers === 'string' ? JSON.parse(place.offers) : {};
-                                return (
-                                    <tr key={place.id}>
-                                        <td>{place.name}</td>
-                                        <td>{place.zipcode}</td>
-                                        <td>{place.address}</td>
-                                        <td>{place.description}</td>
-                                        <td>
-                                            {Object.entries(offers).filter(([key]) => offers[key] === 1).map(([key]) => key).join(', ')}
-                                        </td>
-                                        <td><StorageImage alt="place image" width="50px" path={`placePictures/${place.user}/1`} /></td>
-                                        <td><a onClick={() => approve(place.id)}>Sim</a><a onClick={() => deny(place.id)}>Nao</a></td>
+            {loading ? (
+                <>
+                    <Navbar page="admin" />
+                    <p>Carregando...</p>
+                </ >
+            ) : !attributes ? (
+                <Navigate to={`/logar?redirect=admin`} replace />
+            ) : (
+                <>
+                    <Navbar page="admin" />
+                    <main className="admin">
+                        <h1>Painel Admin</h1>
+                        <div className="wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>CEP</th>
+                                        <th>Endereço</th>
+                                        <th>Descricao</th>
+                                        <th>Oferece</th>
+                                        <th>Foto</th>
+                                        <th>Aprovar?</th>
                                     </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                                </thead>
+                                <tbody>
+                                    {placeRequests.map((place) => {
+                                        const offers = typeof place.offers === 'string' ? JSON.parse(place.offers) : {};
+                                        return (
+                                            <tr key={place.id}>
+                                                <td>{place.name}</td>
+                                                <td>{place.zipcode}</td>
+                                                <td>{place.address}</td>
+                                                <td>{place.description}</td>
+                                                <td>
+                                                    {Object.entries(offers).filter(([key]) => offers[key] === 1).map(([key]) => key).join(', ')}
+                                                </td>
+                                                <td><StorageImage alt="place image" width="50px" path={`placePictures/${place.user}/1`} /></td>
+                                                <td><a onClick={() => approve(place.id)}>Sim</a><a onClick={() => deny(place.id)}>Nao</a></td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
 
-            </main>
+                    </main>
+                </>
+            )}
         </>
 
     );

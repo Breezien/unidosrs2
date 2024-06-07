@@ -10,6 +10,24 @@ import "../../assets/apply.css";
 
 const client = generateClient<Schema>();
 
+const allOffers = [
+  'Abrigo',
+  'Refeições',
+  'Agua',
+  'Alimentos',
+  'Produtos de limpeza',
+  'Produtos de higiene',
+  'Alimentos para gatos',
+  'Alimentos para caes',
+  'Moveis',
+  'Eletrodomesticos',
+  'Roupas para mulheres',
+  'Roupas para homens',
+  'Roupas para crianças',
+  'Brinquedos',
+  'Outras bebidas nao alcoolicas'
+];
+
 function Apply() {
 
   const [credentials, setCredentials] = useState<AuthSession | null>(null);
@@ -25,29 +43,14 @@ function Apply() {
   function applyPlace(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-
-    const allOffers = [
-      'Abrigo',
-      'Refeições',
-      'Agua',
-      'Alimentos',
-      'Produtos de limpeza',
-      'Produtos de higiene pessoal',
-      'Alimentos para gatos',
-      'Alimentos para caes',
-      'Moveis',
-      'Eletrodomesticos',
-      'Roupas para mulheres',
-      'Roupas para homens',
-      'Roupas para crianças',
-      'Brinquedos',
-      'Outras bebidas nao alcoolicas'
-    ];
-
+    const selectedOffers = formData.getAll('offers');
     const offers = allOffers.reduce((acc, offer) => {
-      acc[offer] = formData.getAll('offers').includes(offer) ? 1 : 0;
+      acc[offer] = selectedOffers.includes(offer) ? 1 : 0;
       return acc;
     }, {} as Record<string, number>);
+
+    console.log(allOffers);
+    console.log(formData.getAll('offers'));
 
     const offersString = JSON.stringify(offers);
 
@@ -138,51 +141,13 @@ function Apply() {
                 <textarea name="description" required></textarea>
 
                 <div className="checkboxes">
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Abrigo</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Refeições</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Agua</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Alimentos</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Produtos de limpeza</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Produtos de higiene pessoal</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Alimentos para gatos</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Alimentos para caes</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Moveis</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Eletrodomesticos</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Roupas para mulheres</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Roupas para homens</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Roupas para crianças</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Brinquedos</label>
-                  </div>
-                  <div>
-                    <label><input type="checkbox" name="offers" /> Outras bebidas nao alcoolicas</label>
-                  </div>
+                  {allOffers.map((offer) => (
+                    <div key={offer}>
+                      <label>
+                        <input type="checkbox" name="offers" value={offer} /> {offer}
+                      </label>
+                    </div>
+                  ))}
                 </div>
                 {credentials && (
                   <StorageManager
